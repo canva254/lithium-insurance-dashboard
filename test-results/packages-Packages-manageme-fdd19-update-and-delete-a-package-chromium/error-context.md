@@ -1,0 +1,371 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e5]: Insurance Admin
+      - navigation [ref=e6]:
+        - link "Dashboard" [ref=e7] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Analytics" [ref=e8] [cursor=pointer]:
+          - /url: /analytics
+        - link "Services" [ref=e9] [cursor=pointer]:
+          - /url: /services
+        - link "Tenants" [ref=e10] [cursor=pointer]:
+          - /url: /tenants
+        - link "Packages" [ref=e11] [cursor=pointer]:
+          - /url: /packages
+        - link "Policies" [ref=e12] [cursor=pointer]:
+          - /url: /policies
+        - link "Review queue" [ref=e13] [cursor=pointer]:
+          - /url: /reviews
+        - link "Onboarding" [ref=e14] [cursor=pointer]:
+          - /url: /onboarding
+        - link "Distribution" [ref=e15] [cursor=pointer]:
+          - /url: /distribution
+        - link "Automation" [ref=e16] [cursor=pointer]:
+          - /url: /automation
+        - link "Users" [ref=e17] [cursor=pointer]:
+          - /url: /users
+        - link "Vendors" [ref=e18] [cursor=pointer]:
+          - /url: /vendors
+        - link "Pricing" [ref=e19] [cursor=pointer]:
+          - /url: /pricing
+        - link "Security" [ref=e20] [cursor=pointer]:
+          - /url: /security
+        - link "Workflows" [ref=e21] [cursor=pointer]:
+          - /url: /workflows
+    - generic [ref=e22]:
+      - banner [ref=e23]:
+        - generic [ref=e25]: Welcome back
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic [ref=e28]: Playwright Admin
+            - generic [ref=e29]: admin
+          - button "Sign out" [ref=e30] [cursor=pointer]:
+            - img [ref=e31] [cursor=pointer]
+            - text: Sign out
+      - main [ref=e34]:
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - heading "Packages" [level=1] [ref=e39]
+              - paragraph [ref=e40]: Manage insurance products and related policy documents.
+            - button "New package" [active] [ref=e42] [cursor=pointer]
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - textbox "Search by name or description" [ref=e45]
+              - combobox [ref=e46]:
+                - option "All categories" [selected]
+                - option "motor"
+                - option "health"
+                - option "travel"
+                - option "home"
+                - option "business"
+              - combobox [ref=e47]:
+                - option "All statuses" [selected]
+                - option "Active"
+                - option "Inactive"
+              - combobox [ref=e48]:
+                - option "All workflows" [selected]
+                - option "Draft"
+                - option "Pending Review"
+                - option "Approved"
+                - option "Changes Requested"
+            - generic [ref=e49]:
+              - generic [ref=e50]:
+                - generic [ref=e51]: Sort by
+                - combobox [ref=e52]:
+                  - option "Newest" [selected]
+                  - option "Name"
+                  - option "Base price"
+                - button "Desc" [ref=e53] [cursor=pointer]
+              - button "Reset filters" [ref=e54] [cursor=pointer]
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e57]:
+                - paragraph [ref=e58]: Bulk actions
+                - paragraph [ref=e59]: Apply changes to selected packages in one step.
+              - generic [ref=e60]: 0 selected
+            - generic [ref=e61]:
+              - combobox [ref=e62]:
+                - option "Activate" [selected]
+                - option "Deactivate"
+                - option "Assign tags"
+                - option "Add tags"
+                - option "Remove tags"
+              - button "Apply" [ref=e63] [cursor=pointer]
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - paragraph [ref=e66]: Total
+              - paragraph [ref=e67]: "11"
+              - paragraph [ref=e68]: packages in catalog
+            - generic [ref=e69]:
+              - paragraph [ref=e70]: Active
+              - paragraph [ref=e71]: "5"
+              - paragraph [ref=e72]: currently sellable
+            - generic [ref=e73]:
+              - paragraph [ref=e74]: Inactive
+              - paragraph [ref=e75]: "6"
+              - paragraph [ref=e76]: hidden from listings
+          - table [ref=e78]:
+            - rowgroup [ref=e79]:
+              - row "Select all packages Package Category Base price Workflow Documents Status Actions" [ref=e80]:
+                - cell "Select all packages" [ref=e81]:
+                  - checkbox "Select all packages" [ref=e82]
+                - cell "Package" [ref=e83]
+                - cell "Category" [ref=e84]
+                - cell "Base price" [ref=e85]
+                - cell "Workflow" [ref=e86]
+                - cell "Documents" [ref=e87]
+                - cell "Status" [ref=e88]
+                - cell "Actions" [ref=e89]
+            - rowgroup [ref=e90]:
+              - row "Select RBAC Attempt RBAC Attempt Should fail motor Ksh 10,000 Approved 0 Active Edit Deactivate Delete" [ref=e91]:
+                - cell "Select RBAC Attempt" [ref=e92]:
+                  - checkbox "Select RBAC Attempt" [ref=e93]
+                - cell "RBAC Attempt Should fail" [ref=e94]:
+                  - button "RBAC Attempt" [ref=e95] [cursor=pointer]
+                  - paragraph [ref=e96]: Should fail
+                - cell "motor" [ref=e97]
+                - cell "Ksh 10,000" [ref=e98]
+                - cell "Approved" [ref=e99]:
+                  - generic [ref=e100]: Approved
+                - cell "0" [ref=e101]
+                - cell "Active" [ref=e102]:
+                  - generic [ref=e103]: Active
+                - cell "Edit Deactivate Delete" [ref=e104]:
+                  - generic [ref=e105]:
+                    - button "Edit" [ref=e106] [cursor=pointer]
+                    - button "Deactivate" [ref=e107] [cursor=pointer]
+                    - button "Delete" [ref=e108] [cursor=pointer]
+              - row "Select Partner Package Partner Package Portal submission motor Ksh 1,235 Draft 0 Inactive Edit Activate Delete" [ref=e109]:
+                - cell "Select Partner Package" [ref=e110]:
+                  - checkbox "Select Partner Package" [ref=e111]
+                - cell "Partner Package Portal submission" [ref=e112]:
+                  - button "Partner Package" [ref=e113] [cursor=pointer]
+                  - paragraph [ref=e114]: Portal submission
+                - cell "motor" [ref=e115]
+                - cell "Ksh 1,235" [ref=e116]
+                - cell "Draft" [ref=e117]:
+                  - generic [ref=e118]: Draft
+                - cell "0" [ref=e119]
+                - cell "Inactive" [ref=e120]:
+                  - generic [ref=e121]: Inactive
+                - cell "Edit Activate Delete" [ref=e122]:
+                  - generic [ref=e123]:
+                    - button "Edit" [ref=e124] [cursor=pointer]
+                    - button "Activate" [ref=e125] [cursor=pointer]
+                    - button "Delete" [ref=e126] [cursor=pointer]
+              - row "Select Partner Package Partner Package Updated draft motor Ksh 1,235 Approved 1 Inactive Edit Activate Delete" [ref=e127]:
+                - cell "Select Partner Package" [ref=e128]:
+                  - checkbox "Select Partner Package" [ref=e129]
+                - cell "Partner Package Updated draft" [ref=e130]:
+                  - button "Partner Package" [ref=e131] [cursor=pointer]
+                  - paragraph [ref=e132]: Updated draft
+                - cell "motor" [ref=e133]
+                - cell "Ksh 1,235" [ref=e134]
+                - cell "Approved" [ref=e135]:
+                  - generic [ref=e136]: Approved
+                - cell "1" [ref=e137]
+                - cell "Inactive" [ref=e138]:
+                  - generic [ref=e139]: Inactive
+                - cell "Edit Activate Delete" [ref=e140]:
+                  - generic [ref=e141]:
+                    - button "Edit" [ref=e142] [cursor=pointer]
+                    - button "Activate" [ref=e143] [cursor=pointer]
+                    - button "Delete" [ref=e144] [cursor=pointer]
+              - row "Select Partner Package Partner Package Updated draft motor Ksh 1,235 Approved 1 Inactive Edit Activate Delete" [ref=e145]:
+                - cell "Select Partner Package" [ref=e146]:
+                  - checkbox "Select Partner Package" [ref=e147]
+                - cell "Partner Package Updated draft" [ref=e148]:
+                  - button "Partner Package" [ref=e149] [cursor=pointer]
+                  - paragraph [ref=e150]: Updated draft
+                - cell "motor" [ref=e151]
+                - cell "Ksh 1,235" [ref=e152]
+                - cell "Approved" [ref=e153]:
+                  - generic [ref=e154]: Approved
+                - cell "1" [ref=e155]
+                - cell "Inactive" [ref=e156]:
+                  - generic [ref=e157]: Inactive
+                - cell "Edit Activate Delete" [ref=e158]:
+                  - generic [ref=e159]:
+                    - button "Edit" [ref=e160] [cursor=pointer]
+                    - button "Activate" [ref=e161] [cursor=pointer]
+                    - button "Delete" [ref=e162] [cursor=pointer]
+              - row "Select Partner Package Partner Package Updated draft motor Ksh 1,235 Approved 1 Inactive Edit Activate Delete" [ref=e163]:
+                - cell "Select Partner Package" [ref=e164]:
+                  - checkbox "Select Partner Package" [ref=e165]
+                - cell "Partner Package Updated draft" [ref=e166]:
+                  - button "Partner Package" [ref=e167] [cursor=pointer]
+                  - paragraph [ref=e168]: Updated draft
+                - cell "motor" [ref=e169]
+                - cell "Ksh 1,235" [ref=e170]
+                - cell "Approved" [ref=e171]:
+                  - generic [ref=e172]: Approved
+                - cell "1" [ref=e173]
+                - cell "Inactive" [ref=e174]:
+                  - generic [ref=e175]: Inactive
+                - cell "Edit Activate Delete" [ref=e176]:
+                  - generic [ref=e177]:
+                    - button "Edit" [ref=e178] [cursor=pointer]
+                    - button "Activate" [ref=e179] [cursor=pointer]
+                    - button "Delete" [ref=e180] [cursor=pointer]
+              - row "Select Partner Package Partner Package Updated draft motor Ksh 1,235 Approved 1 Inactive Edit Activate Delete" [ref=e181]:
+                - cell "Select Partner Package" [ref=e182]:
+                  - checkbox "Select Partner Package" [ref=e183]
+                - cell "Partner Package Updated draft" [ref=e184]:
+                  - button "Partner Package" [ref=e185] [cursor=pointer]
+                  - paragraph [ref=e186]: Updated draft
+                - cell "motor" [ref=e187]
+                - cell "Ksh 1,235" [ref=e188]
+                - cell "Approved" [ref=e189]:
+                  - generic [ref=e190]: Approved
+                - cell "1" [ref=e191]
+                - cell "Inactive" [ref=e192]:
+                  - generic [ref=e193]: Inactive
+                - cell "Edit Activate Delete" [ref=e194]:
+                  - generic [ref=e195]:
+                    - button "Edit" [ref=e196] [cursor=pointer]
+                    - button "Activate" [ref=e197] [cursor=pointer]
+                    - button "Delete" [ref=e198] [cursor=pointer]
+              - row "Select Policy Product 67162c2e-2f25-44ae-9073-b409e27f61a0 Policy Product 67162c2e-2f25-44ae-9073-b409e27f61a0 End-to-end policy test motor Ksh 43,210 Approved 0 Active Edit Deactivate Delete" [ref=e199]:
+                - cell "Select Policy Product 67162c2e-2f25-44ae-9073-b409e27f61a0" [ref=e200]:
+                  - checkbox "Select Policy Product 67162c2e-2f25-44ae-9073-b409e27f61a0" [ref=e201]
+                - cell "Policy Product 67162c2e-2f25-44ae-9073-b409e27f61a0 End-to-end policy test" [ref=e202]:
+                  - button "Policy Product 67162c2e-2f25-44ae-9073-b409e27f61a0" [ref=e203] [cursor=pointer]
+                  - paragraph [ref=e204]: End-to-end policy test
+                - cell "motor" [ref=e205]
+                - cell "Ksh 43,210" [ref=e206]
+                - cell "Approved" [ref=e207]:
+                  - generic [ref=e208]: Approved
+                - cell "0" [ref=e209]
+                - cell "Active" [ref=e210]:
+                  - generic [ref=e211]: Active
+                - cell "Edit Deactivate Delete" [ref=e212]:
+                  - generic [ref=e213]:
+                    - button "Edit" [ref=e214] [cursor=pointer]
+                    - button "Deactivate" [ref=e215] [cursor=pointer]
+                    - button "Delete" [ref=e216] [cursor=pointer]
+              - row "Select Partner Package Partner Package Updated draft motor Ksh 1,235 Approved 1 Inactive Edit Activate Delete" [ref=e217]:
+                - cell "Select Partner Package" [ref=e218]:
+                  - checkbox "Select Partner Package" [ref=e219]
+                - cell "Partner Package Updated draft" [ref=e220]:
+                  - button "Partner Package" [ref=e221] [cursor=pointer]
+                  - paragraph [ref=e222]: Updated draft
+                - cell "motor" [ref=e223]
+                - cell "Ksh 1,235" [ref=e224]
+                - cell "Approved" [ref=e225]:
+                  - generic [ref=e226]: Approved
+                - cell "1" [ref=e227]
+                - cell "Inactive" [ref=e228]:
+                  - generic [ref=e229]: Inactive
+                - cell "Edit Activate Delete" [ref=e230]:
+                  - generic [ref=e231]:
+                    - button "Edit" [ref=e232] [cursor=pointer]
+                    - button "Activate" [ref=e233] [cursor=pointer]
+                    - button "Delete" [ref=e234] [cursor=pointer]
+              - row "Select Motor Comprehensive Motor Comprehensive Full coverage motor insurance for private vehicles. motor Ksh 55,000 Approved 0 Active Edit Deactivate Delete" [ref=e235]:
+                - cell "Select Motor Comprehensive" [ref=e236]:
+                  - checkbox "Select Motor Comprehensive" [ref=e237]
+                - cell "Motor Comprehensive Full coverage motor insurance for private vehicles." [ref=e238]:
+                  - button "Motor Comprehensive" [ref=e239] [cursor=pointer]
+                  - paragraph [ref=e240]: Full coverage motor insurance for private vehicles.
+                - cell "motor" [ref=e241]
+                - cell "Ksh 55,000" [ref=e242]
+                - cell "Approved" [ref=e243]:
+                  - generic [ref=e244]: Approved
+                - cell "0" [ref=e245]
+                - cell "Active" [ref=e246]:
+                  - generic [ref=e247]: Active
+                - cell "Edit Deactivate Delete" [ref=e248]:
+                  - generic [ref=e249]:
+                    - button "Edit" [ref=e250] [cursor=pointer]
+                    - button "Deactivate" [ref=e251] [cursor=pointer]
+                    - button "Delete" [ref=e252] [cursor=pointer]
+              - row "Select Motor Third-Party Motor Third-Party Affordable third-party coverage for all drivers. motor Ksh 18,000 Approved 0 Active Edit Deactivate Delete" [ref=e253]:
+                - cell "Select Motor Third-Party" [ref=e254]:
+                  - checkbox "Select Motor Third-Party" [ref=e255]
+                - cell "Motor Third-Party Affordable third-party coverage for all drivers." [ref=e256]:
+                  - button "Motor Third-Party" [ref=e257] [cursor=pointer]
+                  - paragraph [ref=e258]: Affordable third-party coverage for all drivers.
+                - cell "motor" [ref=e259]
+                - cell "Ksh 18,000" [ref=e260]
+                - cell "Approved" [ref=e261]:
+                  - generic [ref=e262]: Approved
+                - cell "0" [ref=e263]
+                - cell "Active" [ref=e264]:
+                  - generic [ref=e265]: Active
+                - cell "Edit Deactivate Delete" [ref=e266]:
+                  - generic [ref=e267]:
+                    - button "Edit" [ref=e268] [cursor=pointer]
+                    - button "Deactivate" [ref=e269] [cursor=pointer]
+                    - button "Delete" [ref=e270] [cursor=pointer]
+              - row "Select Health Classic Health Classic Mid-tier health cover with outpatient and inpatient benefits. health Ksh 72,000 Approved 0 Active Edit Deactivate Delete" [ref=e271]:
+                - cell "Select Health Classic" [ref=e272]:
+                  - checkbox "Select Health Classic" [ref=e273]
+                - cell "Health Classic Mid-tier health cover with outpatient and inpatient benefits." [ref=e274]:
+                  - button "Health Classic" [ref=e275] [cursor=pointer]
+                  - paragraph [ref=e276]: Mid-tier health cover with outpatient and inpatient benefits.
+                - cell "health" [ref=e277]
+                - cell "Ksh 72,000" [ref=e278]
+                - cell "Approved" [ref=e279]:
+                  - generic [ref=e280]: Approved
+                - cell "0" [ref=e281]
+                - cell "Active" [ref=e282]:
+                  - generic [ref=e283]: Active
+                - cell "Edit Deactivate Delete" [ref=e284]:
+                  - generic [ref=e285]:
+                    - button "Edit" [ref=e286] [cursor=pointer]
+                    - button "Deactivate" [ref=e287] [cursor=pointer]
+                    - button "Delete" [ref=e288] [cursor=pointer]
+          - generic [ref=e290]:
+            - generic [ref=e291]:
+              - heading "Create package" [level=2] [ref=e292]
+              - button "Close" [ref=e293] [cursor=pointer]
+            - generic [ref=e294]:
+              - generic [ref=e295]:
+                - generic [ref=e296]:
+                  - generic [ref=e297]: Name
+                  - textbox [ref=e298]
+                - generic [ref=e299]:
+                  - generic [ref=e300]: Category
+                  - combobox [ref=e301]:
+                    - option "motor" [selected]
+                    - option "health"
+                    - option "travel"
+                    - option "home"
+                    - option "business"
+                - generic [ref=e302]:
+                  - generic [ref=e303]: Base price
+                  - spinbutton [ref=e304]
+                - generic [ref=e305]:
+                  - generic [ref=e306]: Vendor
+                  - combobox [ref=e307]:
+                    - option "Unassigned" [selected]
+                    - option "Analytics Vendor 4ab83ffc-76c2-4cc5-b704-c4b0fdb443a5"
+                    - option "Analytics Vendor df0fbdf1-3883-455f-82e2-edfb058a2d34"
+                    - option "Lithium Motor Insurance"
+                    - option "Neon Health"
+              - generic [ref=e308]:
+                - generic [ref=e309]: Description
+                - textbox [ref=e310]
+              - generic [ref=e311]:
+                - generic [ref=e312]: Features (one per line)
+                - textbox [ref=e313]
+              - generic [ref=e314]:
+                - generic [ref=e315]: Tags (comma or newline separated)
+                - textbox [ref=e316]
+              - generic [ref=e317]:
+                - checkbox "Active package" [checked] [ref=e318]
+                - text: Active package
+              - generic [ref=e319]:
+                - button "Cancel" [ref=e320] [cursor=pointer]
+                - button "Create package" [ref=e321] [cursor=pointer]
+  - alert [ref=e322]
+  - complementary "React Query Devtools":
+    - button "Open React Query Devtools" [ref=e323] [cursor=pointer]:
+      - img [ref=e324] [cursor=pointer]
+      - generic [ref=e330] [cursor=pointer]: Open React Query Devtools
+```
