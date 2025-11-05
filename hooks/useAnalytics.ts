@@ -2,6 +2,8 @@ import { useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
+import analyticsSummaryMock from '@/app/api-mocks/analytics-summary.json';
+import analyticsEventsMock from '@/app/api-mocks/analytics-events.json';
 import { analyticsAPI, API_BASE_URL } from '@/lib/api';
 import type { AnalyticsOverview, AnalyticsSummary, AnalyticsEvent, SalesData, UserStats } from '@/types/api';
 
@@ -39,48 +41,8 @@ const MOCK_POLICY_STATS = {
   ],
 };
 
-const MOCK_SUMMARY: AnalyticsSummary = {
-  packages: {
-    total: 96,
-    active: 82,
-    inactive: 8,
-    pendingReview: 6,
-    approvalsLast7Days: 11,
-  },
-  vendors: {
-    total: 54,
-    active: 48,
-    newThisMonth: 4,
-  },
-  security: {
-    activeSessions: 21,
-    twoFactorEnabled: 17,
-    totalAdmins: 22,
-  },
-  eventsLast24h: 286,
-  eventsByDay: Array.from({ length: 7 }).map((_, index) => {
-    const day = new Date();
-    day.setDate(day.getDate() - (6 - index));
-    return {
-      date: day.toISOString().slice(0, 10),
-      count: 180 + index * 12,
-    };
-  }),
-  topEvents: [
-    { event: 'auth.login.success', count: 84 },
-    { event: 'package.version.submitted', count: 33 },
-    { event: 'pricing.rate.updated', count: 21 },
-  ],
-};
-
-const MOCK_EVENTS: AnalyticsEvent[] = Array.from({ length: 8 }).map((_, index) => ({
-  id: `mock-event-${index}`,
-  event: index % 2 === 0 ? 'package.version.submitted' : 'auth.login.success',
-  namespace: 'admin',
-  actorId: index % 2 === 0 ? 'agent.beth' : 'admin.michael',
-  payload: { reference: `REF-${9000 + index}` },
-  createdAt: new Date(Date.now() - index * 15 * 60 * 1000).toISOString(),
-}));
+const MOCK_SUMMARY = analyticsSummaryMock as AnalyticsSummary;
+const MOCK_EVENTS = analyticsEventsMock as AnalyticsEvent[];
 
 export const useOverviewStats = () =>
   useQuery<AnalyticsOverview>(

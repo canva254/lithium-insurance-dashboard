@@ -53,6 +53,17 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        glass: 'var(--glass-shadow)',
+        halo: '0 0 0 1px rgba(148, 163, 184, 0.25)',
+      },
+      backdropBlur: {
+        xs: '6px',
+      },
+      backgroundImage: {
+        'glass-gradient':
+          'radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 60%), radial-gradient(circle at bottom, rgba(14,165,233,0.12), transparent 55%)',
+      },
       keyframes: {
         'accordion-down': {
           from: {

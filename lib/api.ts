@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import type { Session } from 'next-auth';
-import { getSession, signOut } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import type {
   ApiResponse,
   LoginRequest,
@@ -74,6 +74,19 @@ import type {
   PolicyListResponse,
   PolicyRecord,
   PolicyUpdatePayload,
+  Quote,
+  QuoteCreateRequest,
+  QuoteUpdateRequest,
+  QuoteConvertRequest,
+  Customer,
+  CustomerCreateRequest,
+  CustomerUpdateRequest,
+  Invoice,
+  InvoiceCreateRequest,
+  Payment,
+  MpesaStkPushRequest,
+  MpesaStkPushResponse,
+  PaymentStatusResponse,
 } from '@/types/api';
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
@@ -469,8 +482,12 @@ export const analyticsAPI = {
 export const servicesAPI = {
   list: (includeDisabled = true): Promise<ApiResponse<ServiceDefinition[]>> =>
     unwrap(api.get('/admin/services', { params: { include_disabled: includeDisabled } })),
+  create: (payload: any): Promise<ApiResponse<ServiceDefinition>> =>
+    unwrap(api.post('/admin/services', payload)),
   update: (key: string, payload: ServiceUpdatePayload): Promise<ApiResponse<ServiceDefinition>> =>
     unwrap(api.patch(`/admin/services/${key}`, payload)),
+  delete: (key: string): Promise<ApiResponse<void>> =>
+    unwrap(api.delete(`/admin/services/${key}`)),
 };
 
 export const workflowAPI = {
@@ -490,3 +507,69 @@ export const workflowAPI = {
   getQuote: (quoteId: string): Promise<ApiResponse<WorkflowQuoteStatus>> =>
     unwrap(api.get(`/admin/workflows/quotes/${quoteId}`)),
 };
+
+// ============================================
+// Quotes API
+// ============================================
+export const quotesAPI = {
+  list: (params?: {
+    status?: string;
+    product_key?: string;
+    source?: string;
+    q?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<ApiResponse<Quote[]>> => unwrap(api.get('/admin/quotes', { params })),
+  
+  getById: (id: string): Promise<ApiResponse<Quote>> => unwrap(api.get(`/admin/quotes/${id}`)),
+  
+  update: (id: string, data: QuoteUpdateRequest): Promise<ApiResponse<Quote>> =>
+    unwrap(api.patch(`/admin/quotes/${id}`, data)),
+  
+  convert: (id: string, data?: QuoteConvertRequest): Promise<ApiResponse<{ success: boolean; policyId: string; message: string }>> =>
+    unwrap(api.post(`/admin/quotes/${id}/convert`, data || {})),
+};
+
+// ============================================
+// Customers API
+// ============================================
+export const customersAPI = {
+  list: (params?: {
+    q?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<ApiResponse<Customer[]>> => unwrap(api.get('/admin/customers', { params })),
+  
+  getById: (id: string): Promise<ApiResponse<Customer>> => unwrap(api.get(`/admin/customers/${id}`)),
+  
+  create: (data: CustomerCreateRequest): Promise<ApiResponse<Customer>> =>
+    unwrap(api.post('/admin/customers', data)),
+  
+  update: (id: string, data: CustomerUpdateRequest): Promise<ApiResponse<Customer>> =>
+    unwrap(api.patch(`/admin/customers/${id}`, data)),
+};
+
+// ============================================
+// Payments API
+// ============================================
+export const paymentsAPI = {
+  initiateMpesa: (data: MpesaStkPushRequest): Promise<ApiResponse<MpesaStkPushResponse>> =>
+    unwrap(api.post('/payments/mpesa/stk/initiate', data)),
+  
+  getStatus: (params: { invoice_id?: string; payment_id?: string }): Promise<ApiResponse<PaymentStatusResponse>> =>
+    unwrap(api.get('/payments/status', { params })),
+  
+  listInvoices: (params?: {
+    status?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<ApiResponse<Invoice[]>> => unwrap(api.get('/admin/invoices', { params })),
+  
+  listPayments: (params?: {
+    status?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<ApiResponse<Payment[]>> => unwrap(api.get('/admin/payments', { params })),
+};
+
+

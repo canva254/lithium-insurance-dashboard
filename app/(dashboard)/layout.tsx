@@ -1,22 +1,21 @@
 'use client';
 
-import { Menu, LogOut } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useMemo, useState, useTransition } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { useTheme } from 'next-themes';
 
+import { Sidebar } from '@/components/shell/sidebar';
+import { Topbar } from '@/components/shell/topbar';
 import { NAV_ITEMS, ROUTE_GUARDS, isRoleAllowed } from '@/lib/permissions';
 import { useRole } from '@/hooks/useRole';
-import { packagesAPI, policiesAPI, servicesAPI, vendorsAPI } from '@/lib/api';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { role, session, status } = useRole();
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const queryClient = useQueryClient();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [, startThemeTransition] = useTransition();
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -39,124 +38,70 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     [role],
   );
 
-  const prefetchRouteData = useCallback(
-    (href: string) => {
-      if (!href) {
-        return;
-      }
-
-      if (href.startsWith('/services')) {
-        void queryClient.prefetchQuery({
-          queryKey: ['services', { includeDisabled: true }],
-          queryFn: async () => {
-            const response = await servicesAPI.list(true);
-            return response.data ?? [];
-          },
-        });
-        return;
-      }
-
-      if (href.startsWith('/packages')) {
-        void queryClient.prefetchQuery({
-          queryKey: ['packages', { sortBy: 'created_at', sortOrder: 'desc' }],
-          queryFn: async () => {
-            const response = await packagesAPI.getAll({ sortBy: 'created_at', sortOrder: 'desc' });
-            return response.data ?? [];
-          },
-        });
-        void queryClient.prefetchQuery({
-          queryKey: ['vendors'],
-          queryFn: async () => {
-            const response = await vendorsAPI.getAll();
-            return response.data ?? [];
-          },
-        });
-        return;
-      }
-
-      if (href.startsWith('/policies')) {
-        void queryClient.prefetchQuery({
-          queryKey: ['policies', { page: 1, pageSize: 25 }],
-          queryFn: async () => {
-            const response = await policiesAPI.list({ page: 1, pageSize: 25 });
-            return response.data;
-          },
-        });
-      }
-    },
-    [queryClient],
-  );
+  const toggleTheme = useCallback(() => {
+    startThemeTransition(() => {
+      setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    });
+  }, [resolvedTheme, setTheme, startThemeTransition]);
 
   if (status === 'loading' || status === 'unauthenticated') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted/20">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/30 border-t-primary" />
+      <div className="flex min-h-screen items-center justify-center bg-slate-950/80">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/45 border-t-primary" aria-label="Loading" />
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <aside className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-border bg-card/90 p-6 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-lg font-semibold">Insurance Admin</span>
-          <button
-            className="rounded-md border border-border/40 px-2 py-1 text-xs text-muted-foreground hover:bg-muted lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          >
-            Close
-          </button>
+    <div className="relative flex min-h-screen bg-gradient-to-br from-slate-100 via-slate-50 to-white text-foreground dark:from-slate-950 dark:via-slate-950/95 dark:to-slate-900">
+      <div className="hidden lg:flex">
+        <Sidebar items={allowedNavItems} />
+      </div>
+
+      {sidebarOpen ? (
+        <div className="fixed inset-0 z-40 flex lg:hidden">
+          <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} aria-hidden />
+          <div className="relative h-full w-72">
+            <Sidebar items={allowedNavItems} onToggle={() => setSidebarOpen(false)} onNavigate={() => setSidebarOpen(false)} />
+          </div>
         </div>
-        <nav className="mt-8 space-y-2">
-          {allowedNavItems.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block rounded-lg px-3 py-2 text-sm transition ${
-                  active ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted'
-                }`}
-                onMouseEnter={() => prefetchRouteData(item.href)}
-                onFocus={() => prefetchRouteData(item.href)}
-                onClick={() => setSidebarOpen(false)}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </aside>
+      ) : null}
 
-      <div className="flex flex-1 flex-col lg:ml-0">
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/80 px-6 py-4 backdrop-blur">
-          <div className="flex items-center gap-2">
-            <button
-              className="inline-flex items-center justify-center rounded-lg border border-border bg-card px-2 py-1 text-sm text-muted-foreground hover:bg-muted lg:hidden"
-              onClick={() => setSidebarOpen((value) => !value)}
-            >
-              <Menu className="h-4 w-4" />
-            </button>
-            <span className="hidden text-sm text-muted-foreground lg:inline">Welcome back</span>
-          </div>
+      <div className="flex min-h-screen flex-1 flex-col">
+        <Topbar
+          user={{ name: session?.user?.name ?? session?.user?.email, role }}
+          onToggleSidebar={() => setSidebarOpen((value) => !value)}
+          onToggleTheme={toggleTheme}
+        />
 
-          <div className="flex items-center gap-3">
-            <div className="hidden flex-col text-right text-xs text-muted-foreground sm:flex">
-              <span className="font-medium text-foreground">{session?.user?.name}</span>
-              <span className="capitalize">{role}</span>
+        <main className="flex-1 px-4 pb-10 pt-6 md:px-8">
+          <div className="mx-auto w-full max-w-7xl">
+            <section className="relative overflow-hidden rounded-3xl border border-border/50 bg-background/40 px-6 py-10 text-sm shadow-[0_30px_120px_-60px_rgba(15,23,42,0.75)] backdrop-blur-xl sm:px-10">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_60%)]" aria-hidden />
+              <div className="relative flex flex-wrap items-center justify-between gap-6">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/70">Lithium observatory</p>
+                  <h1 className="mt-3 text-3xl font-semibold text-foreground md:text-4xl">Operational intelligence command centre</h1>
+                  <p className="mt-3 max-w-2xl text-sm text-muted-foreground/80">
+                    Monitor revenue, claims, automation, and tenant health with live data streams. Stay ahead with
+                    AI-assisted diagnostics across the insurance lifecycle.
+                  </p>
+                </div>
+                <div className="flex flex-col items-start gap-3 text-left sm:text-right">
+                  <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                    Live sync enabled
+                  </span>
+                  <p className="text-xs text-muted-foreground/80">
+                    Updated {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <div className="mt-10 space-y-8" aria-live="polite">
+              {children}
             </div>
-            <button
-              onClick={() => signOut({ callbackUrl: '/login' })}
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-muted"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </button>
           </div>
-        </header>
-
-        <main className="flex-1 bg-muted/10 px-4 py-6 lg:px-8">
-          <div className="mx-auto w-full max-w-6xl">{children}</div>
         </main>
       </div>
     </div>

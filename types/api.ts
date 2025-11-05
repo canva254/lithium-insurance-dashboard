@@ -314,6 +314,27 @@ export interface SalesData {
 }
 
 export interface AnalyticsSummary {
+  // Real bot data
+  policies?: {
+    total: number;
+    active: number;
+    inactive: number;
+  };
+  customers?: {
+    total: number;
+  };
+  quotes?: {
+    total: number;
+  };
+  payments?: {
+    total: number;
+    completed: number;
+    pending: number;
+  };
+  conversations?: {
+    total: number;
+  };
+  // Admin data
   packages: {
     total: number;
     active: number;
@@ -411,6 +432,237 @@ export interface PolicyListResponse {
     page: number;
     pageSize: number;
   };
+}
+
+// ============================================
+// Quotes, Customers, Payments
+// ============================================
+
+export interface Quote {
+  id: string;
+  customerId?: string | null;
+  tenantId?: string | null;
+  productKey: string;
+  source: string;
+  
+  // Contact info
+  contactName?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  
+  // Motor-specific
+  vehicleType?: string | null;
+  makeModel?: string | null;
+  year?: number | null;
+  estValue?: number | null;
+  
+  // Coverage
+  coverType: string;
+  durationMonths: number;
+  addons?: string | null;
+  
+  // Pricing
+  premium: number;
+  fees: number;
+  taxes: number;
+  totalAmount: number;
+  currency: string;
+  
+  // Risk data
+  riskData?: Record<string, any> | null;
+  
+  // Status
+  status: 'draft' | 'submitted' | 'approved' | 'rejected' | 'converted' | 'expired';
+  
+  // Timestamps
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  expiresAt?: string | null;
+  
+  // Customer details (joined)
+  customerName?: string | null;
+  customerEmail?: string | null;
+  customerPhone?: string | null;
+}
+
+export interface QuoteCreateRequest {
+  customerId?: string;
+  tenantId?: string;
+  productKey: string;
+  source?: string;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  vehicleType?: string;
+  makeModel?: string;
+  year?: number;
+  estValue?: number;
+  coverType: string;
+  durationMonths?: number;
+  addons?: string;
+  premium: number;
+  fees?: number;
+  taxes?: number;
+  currency?: string;
+  riskData?: Record<string, any>;
+}
+
+export interface QuoteUpdateRequest {
+  customerId?: string;
+  status?: string;
+  premium?: number;
+  fees?: number;
+  taxes?: number;
+}
+
+export interface QuoteConvertRequest {
+  skipPaymentCheck?: boolean;
+}
+
+export interface Customer {
+  id: string;
+  firstName: string;
+  lastName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  nationalId?: string | null;
+  address?: string | null;
+  city?: string | null;
+  country: string;
+  tenantId?: string | null;
+  userId?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  
+  // Aggregated data
+  quotesCount?: number;
+  policiesCount?: number;
+  totalPremium?: number;
+}
+
+export interface CustomerCreateRequest {
+  firstName: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  nationalId?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  tenantId?: string;
+  userId?: string;
+}
+
+export interface CustomerUpdateRequest {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  nationalId?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+}
+
+export interface Invoice {
+  id: string;
+  customerId?: string | null;
+  quoteId?: string | null;
+  policyId?: string | null;
+  tenantId?: string | null;
+  
+  invoiceNumber: string;
+  amount: number;
+  fees: number;
+  taxes: number;
+  totalAmount: number;
+  currency: string;
+  
+  provider: string;
+  providerRef?: string | null;
+  
+  status: 'pending' | 'paid' | 'failed' | 'refunded' | 'cancelled';
+  
+  createdAt?: string | null;
+  paidAt?: string | null;
+  dueDate?: string | null;
+  
+  metadata?: Record<string, any> | null;
+  notes?: string | null;
+  
+  // Joined data
+  customerName?: string | null;
+  customerEmail?: string | null;
+  customerPhone?: string | null;
+}
+
+export interface InvoiceCreateRequest {
+  customerId?: string;
+  quoteId?: string;
+  policyId?: string;
+  tenantId?: string;
+  amount: number;
+  fees?: number;
+  taxes?: number;
+  currency?: string;
+  provider?: string;
+  dueDate?: string;
+  notes?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface Payment {
+  id: string;
+  invoiceId: string;
+  customerId?: string | null;
+  tenantId?: string | null;
+  
+  amount: number;
+  currency: string;
+  method: string;
+  
+  mpesaReceiptNo?: string | null;
+  mpesaPhone?: string | null;
+  mpesaCheckoutRequestId?: string | null;
+  mpesaMerchantRequestId?: string | null;
+  
+  provider: string;
+  providerRef?: string | null;
+  providerStatus?: string | null;
+  
+  status: 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded';
+  
+  errorMessage?: string | null;
+  
+  createdAt?: string | null;
+  completedAt?: string | null;
+  failedAt?: string | null;
+}
+
+export interface MpesaStkPushRequest {
+  invoiceId?: string;
+  quoteId?: string;
+  amount: number;
+  phone: string;
+  accountReference?: string;
+  transactionDesc?: string;
+}
+
+export interface MpesaStkPushResponse {
+  checkoutRequestId: string;
+  merchantRequestId: string;
+  invoiceId: string;
+  paymentId: string;
+  status: string;
+}
+
+export interface PaymentStatusResponse {
+  paymentId: string;
+  invoiceId: string;
+  status: string;
+  amount?: number | null;
+  mpesaReceiptNo?: string | null;
+  errorMessage?: string | null;
 }
 
 export interface PolicyUpdatePayload {
