@@ -205,7 +205,13 @@ export default function AnalyticsPage() {
           title="Customers"
           value={deferredSummary?.customers?.total ?? 0}
           suffix=" customers"
-          trend={deferredSummary?.quotes?.total ? Math.round((deferredSummary.quotes.total / Math.max(deferredSummary.customers.total, 1)) * 100) : 0}
+          trend={(deferredSummary?.quotes?.total ?? 0)
+            ? Math.round(
+                ((deferredSummary?.quotes?.total ?? 0) /
+                  Math.max(deferredSummary?.customers?.total ?? 1, 1)) *
+                  100,
+              )
+            : 0}
           description={`${deferredSummary?.quotes?.total ?? 0} quotes generated`}
           accent="orange"
         />
