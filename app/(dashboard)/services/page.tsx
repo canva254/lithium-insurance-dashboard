@@ -472,7 +472,7 @@ export default function ServicesPage() {
             ) : services.length === 0 ? (
               <tr>
                 <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
-                  No services configured yet. Click "Add Service" to create one.
+                  No services configured yet. Click &quot;Add Service&quot; to create one.
                 </td>
               </tr>
             ) : (

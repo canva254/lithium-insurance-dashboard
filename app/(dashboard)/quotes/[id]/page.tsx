@@ -95,7 +95,7 @@ export default function QuoteDetailPage({ params }: { params: { id: string } }) 
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold text-gray-900">Quote not found</h2>
-        <p className="mt-2 text-gray-600">The quote you're looking for doesn't exist.</p>
+        <p className="mt-2 text-gray-600">The quote you&apos;re looking for doesn&apos;t exist.</p>
         <button
           onClick={() => router.push('/quotes')}
           className="mt-4 rounded-lg bg-primary px-4 py-2 text-white hover:bg-primary/90"
