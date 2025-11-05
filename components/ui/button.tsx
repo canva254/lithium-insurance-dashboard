@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, isValidElement, cloneElement } from 'react';
 import type { ButtonHTMLAttributes } from 'react';
 
 type ButtonVariant = 'default' | 'outline' | 'ghost' | 'destructive' | 'secondary';
@@ -7,12 +7,13 @@ type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  asChild?: boolean;
 };
 
 const baseClasses = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition';
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { children, variant = 'default', size = 'default', className = '', type = 'button', ...props },
+  { children, variant = 'default', size = 'default', className = '', type = 'button', asChild = false, ...props },
   ref,
 ) {
   const variantClasses: Record<ButtonVariant, string> = {
@@ -31,6 +32,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`.trim();
+
+  if (asChild && isValidElement(children)) {
+    // Merge classes into the child element and pass through props (excluding type)
+    const child: any = children;
+    const mergedClassName = `${classes} ${child.props?.className ?? ''}`.trim();
+    return cloneElement(child, { className: mergedClassName, ...props });
+  }
 
   return (
     <button ref={ref} type={type} className={classes} {...props}>
